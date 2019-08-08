@@ -1,0 +1,39 @@
+{
+  "name": "curate-express",
+  "version": "1.0.0",
+  "description": "express js server boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startdev": "nodemon --exec babel-node --presets env,stage-2 index",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ioak-dev/curate-express.git"
+  },
+  "keywords": [
+    "expressjs",
+    "express",
+    "node"
+  ],
+  "author": "Arun Kumar Selvaraj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ioak-dev/curate-express/issues"
+  },
+  "homepage": "https://github.com/ioak-dev/curate-express#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.1.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.3.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.18.4"
+  }
+}
