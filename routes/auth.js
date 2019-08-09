@@ -7,17 +7,10 @@ var jwt = require('jsonwebtoken');
 const jwtsecret = 'jwtsecret';
 
 router.get('/keys', (req, res) => {
-  User.findOne({email: req.params.email}, (err, user) => {
-    if (!user) {
-      res.status(200).send(user.problem);
-    } else {
-      res.status(404).send();
-    } 
+  res.json({
+    salt: crypto.randomBytes(40).toString('hex'),
+    solution: crypto.randomBytes(40).toString('hex')
   });
-    // res.json({
-    //   salt: crypto.randomBytes(40).toString('hex'),
-    //   solution: crypto.randomBytes(40).toString('hex')
-    // });
 });
 
 router.post('/signup', (req, res) => {
@@ -42,7 +35,6 @@ router.post('/signin', (req, res) => {
       res.status(404).send();
     }
     if (user.solution === req.body.solution) {
-      console.log(user);
       res.status(200).send({
         name: user.name,
         token: jwt.sign({ userId: user.id }, jwtsecret),

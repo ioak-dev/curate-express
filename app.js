@@ -30,9 +30,6 @@ var mongoose = require('mongoose');
 // mongoose.connect('mongodb+srv://curate:curate@cluster0-f9esg.mongodb.net/curate');
 // mongoose.connect('mongodb://localhost:27017/curate');
 const databaseUri = process.env.DATABASE_URI || 'mongodb://localhost:27017/curate';
-console.log('*************************************');
-console.log(databaseUri);
-console.log('*************************************');
 mongoose.connect(databaseUri);
 
 // authorize requests
