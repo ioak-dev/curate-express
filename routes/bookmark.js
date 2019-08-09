@@ -1,23 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../model/User');
-var crypto = require("crypto");
-var jwt = require('jsonwebtoken');
-
-const jwtsecret = 'jwtsecret';
+var Bookmark = require('../model/Bookmark');
 
 router.put('/', (req, res) => {
-  console.log(req.headers);
-  
-  jwt.verify(req.headers.authorization.split(" ")[1], jwtsecret, function(err, decoded) {
-    if (decoded) {
-      res.json('test');
-    } else {
-      res.status(401).send();
-    }
-    
-  });
-  
+  let bookmark = new Bookmark(req.body);
+  bookmark.userId = req.auth.userId;
+  bookmark.save();
+  res.status(201).send(bookmark);  
+});
+
+router.get('/', (req, res) => {
+  Bookmark.find({userId: req.auth.userId}, (err, data) => {
+    res.status(200).send(data);
+  })  
 });
 
 module.exports = router;

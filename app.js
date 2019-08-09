@@ -12,6 +12,10 @@ var bookmarkRouter = require('./routes/bookmark');
 var app = express();
 app.use(cors());
 
+var jwt = require('jsonwebtoken');
+
+const jwtsecret = 'jwtsecret';
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -24,7 +28,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var mongoose = require('mongoose');
 // mongoose.connect('mongodb+srv://curate:curate@cluster0-f9esg.mongodb.net/curate');
-mongoose.connect('mongodb://localhost:27017/curate');
+// mongoose.connect('mongodb://localhost:27017/curate');
+const databaseUri = process.env.DATABASE_URI || 'mongodb://localhost:27017/curate';
+console.log('*************************************');
+console.log(databaseUri);
+console.log('*************************************');
+mongoose.connect(databaseUri);
+
+// authorize requests
+app.use(function(req, res, next) {
+  if (req.headers.authorization) {
+    jwt.verify(req.headers.authorization.split(" ")[1], jwtsecret, function(err, decoded) {
+      if (decoded) {
+        req.auth = decoded;
+        next();
+      } else {
+        res.status(401).send({
+          status: 401
+        });
+      }
+    });
+  } else {
+    next();
+  }
+});
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
@@ -45,5 +72,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// process.on('uncaughtException', err => {console.log(err);})
 
 module.exports = app;
