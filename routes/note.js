@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.put('/', (req, res) => {
+  console.log(req.body);
   if (req.body.id) {
     Note.findByIdAndUpdate(req.body.id, {...req.body, lastModifiedAt: new Date()}, {new: true}, (err, note) => {
       res.status(201).send(note);
