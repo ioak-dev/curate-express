@@ -7,6 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
+var userRouter = require('./routes/user');
 var bookmarkRouter = require('./routes/bookmark');
 var noteRouter = require('./routes/note');
 
@@ -53,6 +54,7 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 app.use('/bookmark', bookmarkRouter);
 app.use('/note', noteRouter);
 
