@@ -4,7 +4,6 @@ const Bookmark = new Schema({
     userId: { type: String },
     href: { type: String },
     title: { type: String },
-    description: { type: String },
     tags: { type: String },
     createdAt: { type: Date },
     lastModifiedAt: { type: Date }
