@@ -14,10 +14,4 @@ router.put('/preferences', (req, res) => {
   })
 });
 
-router.delete('/:id', (req, res) => {
-  Bookmark.findByIdAndDelete(req.params.id, (err, bookmark) => {
-    res.status(201).send(bookmark);
-  })
-});
-
 module.exports = router;
