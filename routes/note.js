@@ -10,14 +10,16 @@ router.get('/', (req, res) => {
 
 router.put('/', (req, res) => {
   if (req.body.id) {
-    Note.findByIdAndUpdate(req.body.id, {...req.body, lastModifiedAt: new Date()}, {new: true}, (err, note) => {
+    Note.findByIdAndUpdate(req.body.id, {...req.body, attributes: {...req.body.attributes}, lastModifiedAt: new Date()}, {new: true}, (err, note) => {
       res.status(201).send(note);
     })
   } else {
     let note = new Note(req.body);
+    note.attributes = req.body.attributes;
     note.userId = req.auth.userId;
     note.createdAt = new Date();
     note.lastModifiedAt = note.createdAt;
+    console.log(note);
     note.save();
     res.status(201).send(note);
   }
