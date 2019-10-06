@@ -37,6 +37,7 @@ router.post('/signin', (req, res) => {
     if (user.solution === req.body.solution) {
       res.status(200).send({
         name: user.name,
+        email: user.email,
         token: jwt.sign({ userId: user.id }, jwtsecret),
         secret: 'none'
       });

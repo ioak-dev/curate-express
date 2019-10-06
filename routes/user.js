@@ -14,4 +14,10 @@ router.put('/preferences', (req, res) => {
   })
 });
 
+router.put('/details', (req, res) => {
+  User.findByIdAndUpdate(req.auth.userId, {...req.body}, {new: true}, (err, user) => {
+    res.status(201).send({});  
+  })
+});
+
 module.exports = router;
