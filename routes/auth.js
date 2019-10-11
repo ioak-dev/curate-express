@@ -19,13 +19,26 @@ router.post('/signup', (req, res) => {
   res.status(200).send(user);
 });
 
+router.post('/reset', (req, res) => {
+  User.findOne({email: req.body.email}, (err, user) => {
+    if (user) {
+      user.problem = req.body.problem;
+      user.solution = req.body.solution;
+      user.save();
+      res.status(200).send(user.problem);
+    } else {
+      res.status(404).send();
+    }
+  });
+});
+
 router.get('/keys/:email', (req, res) => {
   User.findOne({email: req.params.email}, (err, user) => {
     if (user) {
       res.status(200).send(user.problem);
     } else {
       res.status(404).send();
-    } 
+    }
   });
 });
 
