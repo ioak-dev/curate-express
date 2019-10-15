@@ -3,7 +3,7 @@ var router = express.Router();
 var User = require('../model/User');
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
-
+import { sendForgetPasswordResetCode } from '../services/email';
 const jwtsecret = 'jwtsecret';
 
 router.get('/keys', (req, res) => {
@@ -19,11 +19,23 @@ router.post('/signup', (req, res) => {
   res.status(200).send(user);
 });
 
-router.post('/reset', (req, res) => {
+router.post('/sendResetCode', (req, res) => {
+  // generate unique code
   User.findOne({email: req.body.email}, (err, user) => {
+    if (user) {
+      user.resetCode = 'generated code';
+      user.save();
+      sendForgetPasswordResetCode(user.email, 'generated code');
+    }
+  });
+});
+
+router.post('/reset', (req, res) => {
+  User.findOne({resetCode: req.body.resetCode}, (err, user) => {
     if (user) {
       user.problem = req.body.problem;
       user.solution = req.body.solution;
+      user.resetCode = null;
       user.save();
       res.status(200).send(user.problem);
     } else {

@@ -5,7 +5,8 @@ const User = new Schema({
     email: { type: String },
     problem: { type: String },
     solution: { type: String },
-    preferences: Schema.Types.Mixed
+    preferences: Schema.Types.Mixed,
+    resetCode: { type: String }
 });
 
 module.exports = mongoose.model('user', User);
