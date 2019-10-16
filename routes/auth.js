@@ -3,7 +3,10 @@ var router = express.Router();
 var User = require('../model/User');
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
-import { sendForgetPasswordResetCode } from '../services/email';
+var path = require('path');
+var nodeMailer = require('nodemailer');
+var bodyParser = require('body-parser');
+
 const jwtsecret = 'jwtsecret';
 
 router.get('/keys', (req, res) => {
@@ -20,12 +23,11 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/sendResetCode', (req, res) => {
-  // generate unique code
   User.findOne({email: req.body.email}, (err, user) => {
     if (user) {
-      user.resetCode = 'generated code';
+      user.resetCode = req.body.resetCode;
       user.save();
-      sendForgetPasswordResetCode(user.email, 'generated code');
+      sendForgetPasswordResetCode(user.email, user.resetCode);
     }
   });
 });
@@ -69,5 +71,37 @@ router.post('/signin', (req, res) => {
     }
   });
 });
+
+function sendForgetPasswordResetCode(to, resetCode) {
+  console.log('inside sendForgetPasswordResetCode function');
+  sendEmail(to, 'Password Reset - ioak.com', '');
+}
+
+function sendEmail(to, subject, body) {
+  console.log('inside send email function');
+  let transporter = nodeMailer.createTransport({
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: true,
+    auth: {
+      user: 'curate_ioak@outlook.com',
+      pass: 'v1$3GLd!Y55w%J72!Xwy^EWj#'
+    }
+  });
+  let mailOptions = {
+    from: 'curate_ioak@outlook.com',
+    to: to,
+    subject: subject,
+    text: body,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log('Message %s sent: %s', info.messageId, info.response);
+    res.render('index');
+  });
+}
 
 module.exports = router;
