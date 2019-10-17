@@ -80,16 +80,16 @@ function sendForgetPasswordResetCode(to, resetCode) {
 function sendEmail(to, subject, body) {
   console.log('inside send email function');
   let transporter = nodeMailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
+    host: 'smtp.gmail.com',
+    port: 465,
     secure: true,
     auth: {
-      user: 'curate_ioak@outlook.com',
+      user: 'curate.ioak@gmail.com',
       pass: 'v1$3GLd!Y55w%J72!Xwy^EWj#'
     }
   });
   let mailOptions = {
-    from: 'curate_ioak@outlook.com',
+    from: 'curate.ioak@gmail.com',
     to: to,
     subject: subject,
     text: body,
