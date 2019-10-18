@@ -7,6 +7,7 @@ const Note = new Schema({
     content: { type: String },
     notebook: { type: String },
     tags: { type: String },
+    flag: { type: String },
     attributes: Schema.Types.Mixed,
     createdAt: { type: Date },
     lastModifiedAt: { type: Date }
