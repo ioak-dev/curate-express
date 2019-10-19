@@ -74,10 +74,12 @@ router.post('/signin', (req, res) => {
 
 function sendForgetPasswordResetCode(to, resetCode) {
   console.log('inside sendForgetPasswordResetCode function');
-  sendEmail(to, 'Password Reset - ioak.com', '');
+  let htmlbody = 'Hi<br>We received a request to reset your password. Click the link below to choose a new' +
+      ' one.<br><br><br>http://localhost:3000/#/reset?code='+resetCode;
+  sendEmail(to, 'Password Reset Link- ioak.com', htmlbody);
 }
 
-function sendEmail(to, subject, body) {
+function sendEmail(to, subject, htmlbody) {
   console.log('inside send email function');
   let transporter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
@@ -90,9 +92,9 @@ function sendEmail(to, subject, body) {
   });
   let mailOptions = {
     from: 'curate.ioak@gmail.com',
-    to: to,
+    to: 'amarendrait@gmail.com',
     subject: subject,
-    text: body,
+    html: htmlbody
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
