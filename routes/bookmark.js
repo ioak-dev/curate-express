@@ -26,7 +26,8 @@ router.post('/sendExportMail', (req, res) => {
 function sendExportBookmarkMail(to, content) {
     console.log('inside sendForgetPasswordResetCode function');
     let htmlbody = 'Hi<br>Please find the attached bookmark content';
-    emailservice.sendEmailWithAttachment(to, 'Bookmark content- ioak.com', htmlbody, content);
+    var attachment =  { "filename": "bookmark.html", "content": content };
+    emailservice.sendEmail(to, 'Bookmark content- ioak.com', htmlbody, attachment);
 }
 
 router.put('/', (req, res) => {
@@ -104,43 +105,5 @@ function extractTags(node) {
       return [];
   }
 }
-
-/*function sendExportBookmarkMail(to, content) {
-    console.log('inside sendForgetPasswordResetCode function');
-    let htmlbody = 'Hi<br>Please find the attached bookmark content';
-    sendEmail(to, 'Bookmark content- ioak.com', htmlbody, content);
-}
-
-function sendEmail(to, subject, htmlbody, attachment) {
-    console.log('inside send email function');
-    let transporter = nodeMailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'curate.ioak@gmail.com',
-            pass: 'v1$3GLd!Y55w%J72!Xwy^EWj#'
-        }
-    });
-    let mailOptions = {
-        from: 'curate.ioak@gmail.com',
-        to: 'amarendrait@gmail.com',
-        subject: subject,
-        attachments: [
-            {   // utf-8 string as an attachment
-                filename: 'bookmark.html',
-                content: attachment
-            }],
-        html: htmlbody
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-        res.render('index');
-    });
-}*/
 
 module.exports = router;

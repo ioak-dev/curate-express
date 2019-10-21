@@ -6,6 +6,7 @@ var jwt = require('jsonwebtoken');
 var path = require('path');
 var nodeMailer = require('nodemailer');
 var bodyParser = require('body-parser');
+var emailservice = require('../services/email')
 
 const jwtsecret = 'jwtsecret';
 
@@ -76,34 +77,7 @@ function sendForgetPasswordResetCode(to, resetCode) {
   console.log('inside sendForgetPasswordResetCode function');
   let htmlbody = 'Hi<br>We received a request to reset your password. Click the link below to choose a new' +
       ' one.<br><br><br>http://localhost:3000/#/reset?code='+resetCode;
-  sendEmail(to, 'Password Reset Link- ioak.com', htmlbody);
-}
-
-function sendEmail(to, subject, htmlbody) {
-  console.log('inside send email function');
-  let transporter = nodeMailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'curate.ioak@gmail.com',
-      pass: 'v1$3GLd!Y55w%J72!Xwy^EWj#'
-    }
-  });
-  let mailOptions = {
-    from: 'curate.ioak@gmail.com',
-    to: 'amarendrait@gmail.com',
-    subject: subject,
-    html: htmlbody
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    console.log('Message %s sent: %s', info.messageId, info.response);
-    res.render('index');
-  });
+  emailservice.sendEmail(to, 'Password Reset Link- ioak.com', htmlbody, null);
 }
 
 module.exports = router;
