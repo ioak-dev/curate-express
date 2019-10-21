@@ -29,6 +29,7 @@ router.post('/sendResetCode', (req, res) => {
       user.resetCode = req.body.resetCode;
       user.save();
       sendForgetPasswordResetCode(user.email, user.resetCode);
+      res.status(200).send();
     }
   });
 });
